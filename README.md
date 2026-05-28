@@ -67,6 +67,17 @@ State persists in the browser's `localStorage`. Use the **“Reset demo”** con
 in each site's navigation (or clear site data) to restore the original seeded
 state before re-running a scenario.
 
+## Smoke tests
+
+Headless Playwright smoke tests verify each site renders and a core flow works.
+With the sites running (`./start.sh` in another terminal):
+
+```bash
+cd tests && npm install && npx playwright install chromium   # first time only
+npx playwright test
+```
+
 ## Status
 
-All five sites + landing page are built and runnable via `./start.sh`.
+All five sites + landing page are built and runnable via `./start.sh`,
+with Playwright smoke tests covering each site's core flows.

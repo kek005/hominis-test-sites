@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hominis Test Sites</title>
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        line-height: 1.5;
+      }
+      .wrap { max-width: 1040px; margin: 0 auto; padding: 56px 24px 80px; }
+      header { text-align: center; margin-bottom: 44px; }
+      h1 { font-size: 2.25rem; margin: 0 0 10px; color: #fff; letter-spacing: -0.02em; }
+      header p { margin: 0 auto; max-width: 620px; color: #94a3b8; }
+      .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+      .card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 18px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        transition: transform .15s ease, border-color .15s ease;
+      }
+      .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+      .top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+      .badge {
+        width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+        display: grid; place-items: center; font-weight: 700; font-size: 1.15rem; color: #fff;
+        background: var(--accent);
+      }
+      .card h2 { margin: 0; font-size: 1.15rem; color: #fff; }
+      .card .port { font-size: .8rem; color: #94a3b8; font-family: ui-monospace, monospace; }
+      .card p.desc { margin: 0 0 16px; color: #cbd5e1; font-size: .92rem; flex: 1; }
+      .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+      .tag { font-size: .72rem; background: #0f172a; color: #94a3b8; border: 1px solid #334155; padding: 3px 9px; border-radius: 999px; }
+      .open {
+        display: inline-block; text-align: center; text-decoration: none;
+        background: var(--accent); color: #fff; font-weight: 600; font-size: .9rem;
+        padding: 10px 16px; border-radius: 10px;
+      }
+      .open:hover { filter: brightness(1.08); }
+      .note {
+        margin-top: 44px; background: #1e293b; border: 1px solid #334155;
+        border-radius: 14px; padding: 20px 24px; font-size: .9rem; color: #cbd5e1;
+      }
+      .note h3 { margin: 0 0 8px; color: #fff; font-size: 1rem; }
+      code { background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 2px 7px; font-family: ui-monospace, monospace; font-size: .85em; color: #e2e8f0; }
+      footer { text-align: center; margin-top: 48px; color: #64748b; font-size: .82rem; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Hominis Test Sites</h1>
+        <p>Controlled, synthetic web environments for benchmarking autonomous visual UI agents. Pick a site to start recording.</p>
+      </header>
+
+      <div class="grid">
+        <div class="card" style="--accent:#4f46e5">
+          <div class="top">
+            <div class="badge">N</div>
+            <div><h2>Nimbus Store</h2><div class="port">localhost:5001 · ecommerce</div></div>
+          </div>
+          <p class="desc">Online storefront with browsing, cart, and a multi-step checkout.</p>
+          <div class="tags"><span class="tag">search &amp; filter</span><span class="tag">cart</span><span class="tag">checkout</span><span class="tag">order history</span><span class="tag">login</span></div>
+          <a class="open" href="http://localhost:5001" target="_blank" rel="noopener">Open store →</a>
+        </div>
+
+        <div class="card" style="--accent:#059669">
+          <div class="top">
+            <div class="badge">N</div>
+            <div><h2>Northwind Careers</h2><div class="port">localhost:5002 · careers</div></div>
+          </div>
+          <p class="desc">Job board with filterable listings and a detailed application form.</p>
+          <div class="tags"><span class="tag">job listings</span><span class="tag">filters</span><span class="tag">application form</span><span class="tag">file upload</span><span class="tag">validation</span></div>
+          <a class="open" href="http://localhost:5002" target="_blank" rel="noopener">Open careers →</a>
+        </div>
+
+        <div class="card" style="--accent:#2563eb">
+          <div class="top">
+            <div class="badge">M</div>
+            <div><h2>Meridian Bank</h2><div class="port">localhost:5003 · banking</div></div>
+          </div>
+          <p class="desc">Online banking with accounts, transactions, and money transfers.</p>
+          <div class="tags"><span class="tag">login</span><span class="tag">dashboard</span><span class="tag">transfer</span><span class="tag">confirmation modal</span><span class="tag">statements</span></div>
+          <a class="open" href="http://localhost:5003" target="_blank" rel="noopener">Open bank →</a>
+        </div>
+
+        <div class="card" style="--accent:#7c3aed">
+          <div class="top">
+            <div class="badge">P</div>
+            <div><h2>Pipeline CRM</h2><div class="port">localhost:5004 · crm</div></div>
+          </div>
+          <p class="desc">Sales CRM with contacts, a deal kanban board, and deal notes.</p>
+          <div class="tags"><span class="tag">login</span><span class="tag">contacts</span><span class="tag">kanban</span><span class="tag">add/edit modals</span><span class="tag">notes</span></div>
+          <a class="open" href="http://localhost:5004" target="_blank" rel="noopener">Open CRM →</a>
+        </div>
+
+        <div class="card" style="--accent:#1e293b">
+          <div class="top">
+            <div class="badge">C</div>
+            <div><h2>Console Admin</h2><div class="port">localhost:5005 · admin</div></div>
+          </div>
+          <p class="desc">Admin panel with a users data table, bulk actions, and settings.</p>
+          <div class="tags"><span class="tag">login</span><span class="tag">sort/filter</span><span class="tag">pagination</span><span class="tag">bulk actions</span><span class="tag">settings</span></div>
+          <a class="open" href="http://localhost:5005" target="_blank" rel="noopener">Open console →</a>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Demo credentials</h3>
+        <p>Every site that has a login accepts <code>demo@hominis.test</code> / <code>password</code>. Banking, CRM, and Admin require sign-in; the store and careers site work without it.</p>
+        <h3 style="margin-top:16px">Resetting state</h3>
+        <p>Each site persists changes in your browser's <code>localStorage</code>. Click <strong>“Reset demo”</strong> in a site's nav (or clear site data) to restore the original seeded state before re-recording a scenario.</p>
+      </div>
+
+      <footer>Synthetic environments — no real users, payments, or data. Built for Hominis agent testing.</footer>
+    </div>
+  </body>
+</html>

@@ -41,3 +41,67 @@ export const SETTINGS = {
   weeklyDigest: false,
   seatLimit: 100,
 }
+
+// --- Analytics: deterministic 14-day signup / active series ---
+export const SIGNUPS = [4, 6, 3, 8, 5, 9, 7, 11, 6, 10, 8, 12, 9, 14].map((count, i) => ({
+  date: `2026-05-${String(15 + i).padStart(2, '0')}`,
+  signups: count,
+  active: 30 + count * 2 + (i % 3) * 4,
+}))
+
+// --- Audit log ---
+const AUDIT_ACTORS = ['Admin User', 'Ava Reed', 'Liam Frost', 'Mia Vance', 'System']
+const AUDIT_TEMPLATES = [
+  ['user.invite', 'Invited {t} to the workspace', 'success'],
+  ['user.role_change', 'Changed role for {t} to Editor', 'info'],
+  ['user.suspend', 'Suspended {t}', 'warning'],
+  ['user.delete', 'Deleted user {t}', 'danger'],
+  ['auth.login', 'Signed in from 192.168.1.{n}', 'info'],
+  ['auth.2fa_enabled', 'Enabled two-factor authentication', 'success'],
+  ['billing.plan_change', 'Upgraded plan to Business', 'success'],
+  ['settings.update', 'Updated workspace settings', 'info'],
+  ['api.key_created', 'Created API key “prod-{n}”', 'info'],
+  ['export.users', 'Exported the users table to CSV', 'info'],
+]
+export const AUDIT_EVENTS = Array.from({ length: 32 }).map((_, i) => {
+  const [action, tmpl, level] = AUDIT_TEMPLATES[i % AUDIT_TEMPLATES.length]
+  const actor = AUDIT_ACTORS[i % AUDIT_ACTORS.length]
+  const target = `${FIRST[(i * 3) % FIRST.length]} ${LAST[(i * 5) % LAST.length]}`
+  const hour = String((i * 7) % 24).padStart(2, '0')
+  const min = String((i * 13) % 60).padStart(2, '0')
+  const day = String(27 - (i % 14)).padStart(2, '0')
+  return {
+    id: 'ev' + (9000 + i),
+    actor,
+    action,
+    level,
+    message: tmpl.replace('{t}', target).replace('{n}', String(10 + (i % 80))),
+    at: `2026-05-${day} ${hour}:${min}`,
+  }
+})
+
+// --- Roles & permissions ---
+export const PERMISSIONS = ['View dashboard', 'Manage users', 'Manage billing', 'Edit settings', 'View audit log', 'Export data', 'Manage API keys']
+export const ROLE_PERMISSIONS = {
+  Owner:  [true, true, true, true, true, true, true],
+  Admin:  [true, true, false, true, true, true, true],
+  Editor: [true, false, false, false, false, true, false],
+  Viewer: [true, false, false, false, false, false, false],
+}
+
+// --- Billing ---
+export const PLAN = {
+  name: 'Business',
+  price: 49,
+  interval: 'seat / month',
+  seatsUsed: 52,
+  seatLimit: 100,
+  renews: '2026-06-15',
+  card: 'Visa •••• 4242',
+}
+export const INVOICES = [
+  { id: 'INV-2026-05', date: '2026-05-15', amount: 2548.0, status: 'Paid' },
+  { id: 'INV-2026-04', date: '2026-04-15', amount: 2401.0, status: 'Paid' },
+  { id: 'INV-2026-03', date: '2026-03-15', amount: 2303.0, status: 'Paid' },
+  { id: 'INV-2026-02', date: '2026-02-15', amount: 2156.0, status: 'Paid' },
+]

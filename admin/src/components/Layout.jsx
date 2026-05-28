@@ -2,7 +2,11 @@ import { NavLink, Link, Navigate, useLocation } from 'react-router-dom'
 import { useStore } from '../lib/store.jsx'
 
 const nav = [
+  { to: '/dashboard', label: 'Dashboard', icon: '▦' },
   { to: '/users', label: 'Users', icon: '👥' },
+  { to: '/roles', label: 'Roles', icon: '🔑' },
+  { to: '/audit', label: 'Audit log', icon: '📜' },
+  { to: '/billing', label: 'Billing', icon: '💳' },
   { to: '/settings', label: 'Settings', icon: '⚙' },
 ]
 

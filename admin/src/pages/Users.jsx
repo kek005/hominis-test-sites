@@ -28,6 +28,9 @@ export default function Users() {
   const [form, setForm] = useState(EMPTY)
   const [errors, setErrors] = useState({})
   const [confirm, setConfirm] = useState(null) // { ids: [...] }
+  const [drawer, setDrawer] = useState(null) // user being viewed
+  const [colsOpen, setColsOpen] = useState(false)
+  const [cols, setCols] = useState({ role: true, status: true, lastActive: true })
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -90,6 +93,19 @@ export default function Users() {
     clearSelection()
   }
 
+  const exportCsv = () => {
+    const header = ['Name', 'Email', 'Role', 'Status', 'Last active']
+    const lines = filtered.map((u) => [u.name, u.email, u.role, u.status, u.lastActive].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','))
+    const csv = [header.join(','), ...lines].join('\n')
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }))
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'users.csv'
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.show(`Exported ${filtered.length} users to CSV`)
+  }
+
   const sortIcon = (key) => (sort.key !== key ? '↕' : sort.dir === 'asc' ? '↑' : '↓')
   const input = (k) => `w-full rounded-lg border px-3 py-2 text-sm focus:outline-none ${errors[k] ? 'border-red-400' : 'border-gray-300 focus:border-accent-500'}`
   const sel = 'rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-accent-500 focus:outline-none'
@@ -101,7 +117,22 @@ export default function Users() {
           <h1 className="text-2xl font-bold text-gray-900">Users</h1>
           <p className="text-sm text-gray-500">{filtered.length} of {users.length} users</p>
         </div>
-        <button onClick={openNew} data-testid="new-user" className="rounded-lg bg-brand-900 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800">+ New user</button>
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <button onClick={() => setColsOpen((o) => !o)} className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Columns ▾</button>
+            {colsOpen && (
+              <div className="absolute right-0 z-10 mt-1 w-44 rounded-lg border border-gray-100 bg-white p-2 shadow-lg" onMouseLeave={() => setColsOpen(false)}>
+                {[['role', 'Role'], ['status', 'Status'], ['lastActive', 'Last active']].map(([k, label]) => (
+                  <label key={k} className="flex items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
+                    <input type="checkbox" checked={cols[k]} onChange={() => setCols((c) => ({ ...c, [k]: !c[k] }))} className="accent-brand-900" /> {label}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+          <button onClick={exportCsv} data-testid="export-csv" className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Export CSV</button>
+          <button onClick={openNew} data-testid="new-user" className="rounded-lg bg-brand-900 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800">+ New user</button>
+        </div>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-3">
@@ -128,9 +159,9 @@ export default function Users() {
             <tr>
               <th className="w-10 px-4 py-3"><input type="checkbox" aria-label="Select all on page" checked={allOnPageSelected} onChange={toggleAllOnPage} /></th>
               <th className="cursor-pointer px-4 py-3 select-none" onClick={() => toggleSort('name')}>Name {sortIcon('name')}</th>
-              <th className="cursor-pointer px-4 py-3 select-none" onClick={() => toggleSort('role')}>Role {sortIcon('role')}</th>
-              <th className="cursor-pointer px-4 py-3 select-none" onClick={() => toggleSort('status')}>Status {sortIcon('status')}</th>
-              <th className="hidden cursor-pointer px-4 py-3 select-none sm:table-cell" onClick={() => toggleSort('lastActive')}>Last active {sortIcon('lastActive')}</th>
+              {cols.role && <th className="cursor-pointer px-4 py-3 select-none" onClick={() => toggleSort('role')}>Role {sortIcon('role')}</th>}
+              {cols.status && <th className="cursor-pointer px-4 py-3 select-none" onClick={() => toggleSort('status')}>Status {sortIcon('status')}</th>}
+              {cols.lastActive && <th className="hidden cursor-pointer px-4 py-3 select-none sm:table-cell" onClick={() => toggleSort('lastActive')}>Last active {sortIcon('lastActive')}</th>}
               <th className="px-4 py-3"></th>
             </tr>
           </thead>
@@ -141,11 +172,12 @@ export default function Users() {
               slice.map((u) => (
                 <tr key={u.id} data-testid="user-row" className={selected.has(u.id) ? 'bg-accent-500/5' : 'hover:bg-gray-50'}>
                   <td className="px-4 py-3"><input type="checkbox" aria-label={`Select ${u.name}`} checked={selected.has(u.id)} onChange={() => toggleRow(u.id)} /></td>
-                  <td className="px-4 py-3"><p className="font-medium text-gray-900">{u.name}</p><p className="text-xs text-gray-400">{u.email}</p></td>
-                  <td className="px-4 py-3 text-gray-600">{u.role}</td>
-                  <td className="px-4 py-3"><span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge[u.status]}`}>{u.status}</span></td>
-                  <td className="hidden px-4 py-3 text-gray-500 sm:table-cell">{u.lastActive}</td>
+                  <td className="px-4 py-3"><button onClick={() => setDrawer(u)} className="text-left font-medium text-gray-900 hover:text-accent-600">{u.name}</button><p className="text-xs text-gray-400">{u.email}</p></td>
+                  {cols.role && <td className="px-4 py-3 text-gray-600">{u.role}</td>}
+                  {cols.status && <td className="px-4 py-3"><span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge[u.status]}`}>{u.status}</span></td>}
+                  {cols.lastActive && <td className="hidden px-4 py-3 text-gray-500 sm:table-cell">{u.lastActive}</td>}
                   <td className="px-4 py-3 text-right whitespace-nowrap">
+                    <button onClick={() => setDrawer(u)} className="mr-3 font-medium text-gray-500 hover:underline">View</button>
                     <button onClick={() => openEdit(u)} className="mr-3 font-medium text-accent-600 hover:underline">Edit</button>
                     <button onClick={() => setConfirm({ ids: [u.id] })} className="text-gray-400 hover:text-red-600">Delete</button>
                   </td>
@@ -186,6 +218,30 @@ export default function Users() {
           <button onClick={doDelete} data-testid="confirm-delete" className="rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-700">Delete</button>
         </div>
       </Modal>
+
+      {drawer && (
+        <div className="fixed inset-0 z-40 flex justify-end bg-black/30" onClick={() => setDrawer(null)}>
+          <div data-testid="user-drawer" className="h-full w-full max-w-sm overflow-y-auto bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-100 font-bold text-brand-700">{drawer.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}</div>
+                <div><p className="font-semibold text-gray-900">{drawer.name}</p><p className="text-sm text-gray-500">{drawer.email}</p></div>
+              </div>
+              <button onClick={() => setDrawer(null)} aria-label="Close" className="text-gray-400 hover:text-gray-700">✕</button>
+            </div>
+            <dl className="mt-6 space-y-3 text-sm">
+              <div className="flex justify-between"><dt className="text-gray-500">Role</dt><dd className="font-medium text-gray-900">{drawer.role}</dd></div>
+              <div className="flex justify-between"><dt className="text-gray-500">Status</dt><dd><span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge[drawer.status]}`}>{drawer.status}</span></dd></div>
+              <div className="flex justify-between"><dt className="text-gray-500">Last active</dt><dd className="text-gray-900">{drawer.lastActive}</dd></div>
+              <div className="flex justify-between"><dt className="text-gray-500">User ID</dt><dd className="font-mono text-xs text-gray-700">{drawer.id}</dd></div>
+            </dl>
+            <div className="mt-6 flex gap-3">
+              <button onClick={() => { openEdit(drawer); setDrawer(null) }} className="flex-1 rounded-lg bg-brand-900 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800">Edit</button>
+              <button onClick={() => { setConfirm({ ids: [drawer.id] }); setDrawer(null) }} className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

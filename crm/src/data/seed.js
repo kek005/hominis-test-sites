@@ -33,4 +33,32 @@ export const DEALS = [
     notes: [{ id: 'n5', at: '2026-05-10', text: 'Closed! Upsold analytics module. Kickoff next week.' }] },
   { id: 'd9', title: 'Drift Studios — Creator tier', company: 'Drift Studios', contactId: 'c9', value: 6800, stage: 'Negotiation', owner: 'Riley Chen', close: '2026-06-12', notes: [] },
   { id: 'd10', title: 'Maple & Stone — Starter', company: 'Maple & Stone', contactId: 'c10', value: 4200, stage: 'Won', owner: 'Riley Chen', close: '2026-04-28', notes: [] },
+  { id: 'd11', title: 'Lumen Labs — Add-on seats', company: 'Lumen Labs', contactId: 'c1', value: 12000, stage: 'Lead', owner: 'Riley Chen', close: '2026-08-15', notes: [] },
+  { id: 'd12', title: 'Verda Energy — Premium support', company: 'Verda Energy', contactId: 'c6', value: 18000, stage: 'Proposal', owner: 'Riley Chen', close: '2026-07-18', notes: [] },
+]
+
+export const COMPANIES = [
+  { id: 'co1', name: 'Lumen Labs', industry: 'Software', size: '201–500', location: 'San Francisco, CA', website: 'lumenlabs.io' },
+  { id: 'co2', name: 'Brightwave', industry: 'Logistics', size: '51–200', location: 'Austin, TX', website: 'brightwave.co' },
+  { id: 'co3', name: 'Northstar Health', industry: 'Healthcare', size: '1000+', location: 'New York, NY', website: 'northstar.health' },
+  { id: 'co4', name: 'Atlas Freight', industry: 'Transportation', size: '501–1000', location: 'Chicago, IL', website: 'atlasfreight.com' },
+  { id: 'co5', name: 'Kite & Co', industry: 'Retail', size: '11–50', location: 'Seattle, WA', website: 'kite.co' },
+  { id: 'co6', name: 'Verda Energy', industry: 'Energy', size: '201–500', location: 'Boston, MA', website: 'verda.energy' },
+  { id: 'co7', name: 'Pinecrest Schools', industry: 'Education', size: '501–1000', location: 'Portland, OR', website: 'pinecrest.edu' },
+  { id: 'co8', name: 'Cobalt Retail', industry: 'Retail', size: '201–500', location: 'New York, NY', website: 'cobalt.shop' },
+  { id: 'co9', name: 'Drift Studios', industry: 'Media', size: '11–50', location: 'Los Angeles, CA', website: 'driftstudios.tv' },
+  { id: 'co10', name: 'Maple & Stone', industry: 'Hospitality', size: '51–200', location: 'New York, NY', website: 'mapleandstone.com' },
+]
+
+export const ACTIVITY_TYPES = ['Call', 'Email', 'Meeting', 'Task']
+
+export const ACTIVITIES = [
+  { id: 'a1', type: 'Call', title: 'Discovery call with Amara', contactId: 'c1', dealId: 'd1', due: '2026-05-30', done: false },
+  { id: 'a2', type: 'Email', title: 'Send proposal follow-up to Diego', contactId: 'c2', dealId: 'd2', due: '2026-05-29', done: false },
+  { id: 'a3', type: 'Meeting', title: 'MSA review w/ Northstar legal', contactId: 'c3', dealId: 'd3', due: '2026-06-02', done: false },
+  { id: 'a4', type: 'Task', title: 'Prepare pricing for Verda', contactId: 'c6', dealId: 'd6', due: '2026-05-28', done: false },
+  { id: 'a5', type: 'Call', title: 'Check in with Cobalt (post-sale)', contactId: 'c8', dealId: 'd8', due: '2026-05-26', done: true },
+  { id: 'a6', type: 'Email', title: 'Intro deck to Kite & Co', contactId: 'c5', dealId: 'd5', due: '2026-06-04', done: false },
+  { id: 'a7', type: 'Task', title: 'Update CRM notes after Atlas pilot scoping', contactId: 'c4', dealId: 'd4', due: '2026-06-01', done: false },
+  { id: 'a8', type: 'Meeting', title: 'Quarterly review with Pinecrest', contactId: 'c7', dealId: 'd7', due: '2026-06-10', done: false },
 ]

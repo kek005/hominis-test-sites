@@ -10,13 +10,17 @@ services.
 
 ## Layout
 
-| Folder      | Purpose                                              |
-|-------------|------------------------------------------------------|
-| `ecommerce/`| Storefront, cart, checkout, order history, admin     |
-| `careers/`  | Job listings, application forms, applicant tracking  |
-| `banking/`  | Account dashboard, transfers, statements             |
-| `crm/`      | Contacts, deals, pipeline, notes                     |
-| `admin/`    | Generic admin panel with tables, filters, modals     |
+| Folder       | Purpose                                              |
+|--------------|------------------------------------------------------|
+| `ecommerce/` | Storefront, cart, checkout, order history, account   |
+| `careers/`   | Job listings, multi-step application, company page   |
+| `banking/`   | Accounts, transfers, bill pay, cards, insights       |
+| `crm/`       | Contacts, companies, deal pipeline, activities       |
+| `admin/`     | Admin panel with data table, audit log, roles, billing |
+| `travel/`    | Flight + hotel booking with seat maps and trips      |
+| `tickets/`   | Event tickets with seat selection and checkout       |
+| `insurance/` | Policies, claim + quote wizards, payments, documents |
+| `hospital/`  | Clinical staff dashboard: patients, beds, appointments |
 
 Each folder is independent and can be developed, deployed, and torn down on its own.
 
@@ -32,7 +36,7 @@ Each folder is independent and can be developed, deployed, and torn down on its 
 ## Running the sites
 
 Each site is an independent Vite + React + Tailwind app. To boot the landing
-page and all five sites at once:
+page and all nine sites at once:
 
 ```bash
 ./start.sh
@@ -41,14 +45,18 @@ page and all five sites at once:
 Then open the landing page at **http://localhost:5000** and follow the links.
 Press `Ctrl+C` to stop everything. Per-site logs are written to `./logs/`.
 
-| Site            | Port | URL                     |
-|-----------------|------|-------------------------|
-| Landing page    | 5000 | http://localhost:5000   |
-| Nimbus Store    | 5001 | http://localhost:5001   |
+| Site              | Port | URL                   |
+|-------------------|------|-----------------------|
+| Landing page      | 5000 | http://localhost:5000 |
+| Nimbus Store      | 5001 | http://localhost:5001 |
 | Northwind Careers | 5002 | http://localhost:5002 |
-| Meridian Bank   | 5003 | http://localhost:5003   |
-| Pipeline CRM    | 5004 | http://localhost:5004   |
-| Console Admin   | 5005 | http://localhost:5005   |
+| Meridian Bank     | 5003 | http://localhost:5003 |
+| Pipeline CRM      | 5004 | http://localhost:5004 |
+| Console Admin     | 5005 | http://localhost:5005 |
+| Voyage Travel     | 5006 | http://localhost:5006 |
+| Showtime Tickets  | 5007 | http://localhost:5007 |
+| Assure Insurance  | 5008 | http://localhost:5008 |
+| Pulse Hospital    | 5009 | http://localhost:5009 |
 
 To run a single site on its own:
 
@@ -59,7 +67,8 @@ cd banking && npm run dev   # already has deps installed
 ## Demo credentials
 
 Sites with a login accept **`demo@hominis.test`** / **`password`**.
-Banking, CRM, and Admin require sign-in; the store and careers site are open.
+Banking, CRM, Admin, Insurance, and Hospital require sign-in; the store,
+careers, travel, and tickets sites are open.
 
 ## Resetting state
 
@@ -79,5 +88,5 @@ npx playwright test
 
 ## Status
 
-All five sites + landing page are built and runnable via `./start.sh`,
+All nine sites + landing page are built and runnable via `./start.sh`,
 with Playwright smoke tests covering each site's core flows.

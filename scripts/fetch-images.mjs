@@ -8,6 +8,9 @@ import { fileURLToPath } from 'node:url'
 import { PRODUCTS } from '../ecommerce/src/data/seed.js'
 import { CONTACTS } from '../crm/src/data/seed.js'
 import { USERS } from '../admin/src/data/seed.js'
+import { CITIES, HOTELS } from '../travel/src/data/seed.js'
+import { EVENTS } from '../tickets/src/data/seed.js'
+import { STAFF } from '../hospital/src/data/seed.js'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -93,6 +96,36 @@ USERS.forEach((u, idx) => {
 // Careers imagery.
 jobs.push(() => download('https://loremflickr.com/1200/500/office,team?lock=7', `${ROOT}/careers/public/img/hero.jpg`))
 jobs.push(() => download('https://loremflickr.com/1200/500/coworking,startup?lock=11', `${ROOT}/careers/public/img/company.jpg`))
+
+// Travel: destination + hotel photos (keyword-matched, picsum fallback).
+jobs.push(() => download('https://loremflickr.com/1600/600/travel,landmark?lock=3', `${ROOT}/travel/public/img/dest/hero.jpg`))
+CITIES.forEach((c, idx) => {
+  const dest = `${ROOT}/travel/public/img/dest/${c.img}.jpg`
+  const primary = `https://loremflickr.com/600/400/${encodeURIComponent(c.city)}?lock=${idx + 20}`
+  const fallback = `https://picsum.photos/seed/${c.img}/600/400`
+  jobs.push(async () => { try { return await download(primary, dest) } catch { return await download(fallback, dest) } })
+})
+HOTELS.forEach((h, idx) => {
+  const dest = `${ROOT}/travel/public/img/hotels/${h.img}.jpg`
+  const primary = `https://loremflickr.com/600/450/hotel,${encodeURIComponent(h.city)}?lock=${idx + 40}`
+  const fallback = `https://picsum.photos/seed/${h.img}/600/450`
+  jobs.push(async () => { try { return await download(primary, dest) } catch { return await download(fallback, dest) } })
+})
+
+// Tickets: event posters by category.
+const EVENT_KW = { Concert: 'concert,stage', Sports: 'stadium,sport', Theater: 'theatre,stage', Comedy: 'comedy,microphone', Festival: 'music,festival', Movie: 'cinema,movie' }
+EVENTS.forEach((e, idx) => {
+  const dest = `${ROOT}/tickets/public/img/events/${e.img}.jpg`
+  const kw = EVENT_KW[e.category] || 'event'
+  const primary = `https://loremflickr.com/600/400/${encodeURIComponent(kw)}?lock=${idx + 60}`
+  const fallback = `https://picsum.photos/seed/${e.img}/600/400`
+  jobs.push(async () => { try { return await download(primary, dest) } catch { return await download(fallback, dest) } })
+})
+
+// Hospital: staff avatars.
+STAFF.forEach((s) => {
+  jobs.push(() => download(`https://i.pravatar.cc/160?img=${s.avatar}`, `${ROOT}/hospital/public/avatars/${s.id}.jpg`))
+})
 
 console.log(`Fetching ${jobs.length} images…`)
 const res = await run(jobs, 6)

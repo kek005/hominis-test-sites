@@ -40,6 +40,10 @@ start_site careers   "Northwind Career" 5002
 start_site banking   "Meridian Bank   " 5003
 start_site crm       "Pipeline CRM    " 5004
 start_site admin     "Console Admin   " 5005
+start_site travel    "Voyage Travel   " 5006
+start_site tickets   "Showtime Tickets" 5007
+start_site insurance "Assure Insurance" 5008
+start_site hospital  "Pulse Hospital  " 5009
 
 echo ""
 echo "All sites are starting up (give Vite a few seconds)."

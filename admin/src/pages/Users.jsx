@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useStore } from '../lib/store.jsx'
 import { ROLES, STATUSES } from '../data/seed.js'
 import Modal from '../components/Modal.jsx'
+import Avatar from '../components/Avatar.jsx'
 import { useToast } from '../components/Toast.jsx'
 
 const PAGE_SIZE = 10
@@ -172,7 +173,12 @@ export default function Users() {
               slice.map((u) => (
                 <tr key={u.id} data-testid="user-row" className={selected.has(u.id) ? 'bg-accent-500/5' : 'hover:bg-gray-50'}>
                   <td className="px-4 py-3"><input type="checkbox" aria-label={`Select ${u.name}`} checked={selected.has(u.id)} onChange={() => toggleRow(u.id)} /></td>
-                  <td className="px-4 py-3"><button onClick={() => setDrawer(u)} className="text-left font-medium text-gray-900 hover:text-accent-600">{u.name}</button><p className="text-xs text-gray-400">{u.email}</p></td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar name={u.name} src={`/avatars/${u.id}.jpg`} className="h-9 w-9 text-xs" />
+                      <div><button onClick={() => setDrawer(u)} className="text-left font-medium text-gray-900 hover:text-accent-600">{u.name}</button><p className="text-xs text-gray-400">{u.email}</p></div>
+                    </div>
+                  </td>
                   {cols.role && <td className="px-4 py-3 text-gray-600">{u.role}</td>}
                   {cols.status && <td className="px-4 py-3"><span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge[u.status]}`}>{u.status}</span></td>}
                   {cols.lastActive && <td className="hidden px-4 py-3 text-gray-500 sm:table-cell">{u.lastActive}</td>}
@@ -224,7 +230,7 @@ export default function Users() {
           <div data-testid="user-drawer" className="h-full w-full max-w-sm overflow-y-auto bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-100 font-bold text-brand-700">{drawer.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}</div>
+                <Avatar name={drawer.name} src={`/avatars/${drawer.id}.jpg`} className="h-12 w-12 text-base" />
                 <div><p className="font-semibold text-gray-900">{drawer.name}</p><p className="text-sm text-gray-500">{drawer.email}</p></div>
               </div>
               <button onClick={() => setDrawer(null)} aria-label="Close" className="text-gray-400 hover:text-gray-700">✕</button>

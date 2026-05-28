@@ -44,7 +44,10 @@ export default function JobList() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <div className="mb-8 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-800 p-8 text-white">
+      <div
+        className="mb-8 rounded-2xl bg-brand-700 bg-cover bg-center p-8 text-white"
+        style={{ backgroundImage: "linear-gradient(rgba(6,78,59,0.82), rgba(4,47,46,0.88)), url('/img/hero.jpg')" }}
+      >
         <h1 className="text-3xl font-bold">Build the future with us</h1>
         <p className="mt-2 max-w-xl text-brand-100">
           Northwind is hiring across engineering, design, product, and more. Find your next role.

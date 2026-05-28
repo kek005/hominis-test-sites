@@ -4,7 +4,10 @@ import { BENEFITS, VALUES, JOBS, DEPARTMENTS } from '../data/seed.js'
 export default function Company() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <div className="rounded-2xl bg-gradient-to-r from-brand-600 to-brand-800 p-10 text-white">
+      <div
+        className="rounded-2xl bg-brand-700 bg-cover bg-center p-10 text-white"
+        style={{ backgroundImage: "linear-gradient(rgba(6,78,59,0.80), rgba(4,47,46,0.88)), url('/img/company.jpg')" }}
+      >
         <h1 className="text-3xl font-bold">Life at Northwind</h1>
         <p className="mt-3 max-w-2xl text-brand-100">
           We're a remote-first team of {120} building tools people love. We move fast, care deeply about craft,

@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { useStore } from '../lib/store.jsx'
+import Avatar from '../components/Avatar.jsx'
 
 const money = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n)
 const typeIcon = { Call: '📞', Email: '✉', Meeting: '👥', Task: '✓' }
@@ -21,14 +22,13 @@ export default function ContactDetail() {
   const company = companyByName(contact.company)
   const deals = dealsForContact(id)
   const activities = activitiesForContact(id).slice().sort((a, b) => a.due.localeCompare(b.due))
-  const initials = contact.name.split(' ').map((w) => w[0]).slice(0, 2).join('')
 
   return (
     <div className="mx-auto max-w-4xl">
       <Link to="/contacts" className="text-sm text-gray-500 hover:text-gray-900">← Contacts</Link>
 
       <div className="mt-4 flex items-start gap-4 rounded-2xl border border-gray-100 bg-white p-6">
-        <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-brand-100 text-xl font-bold text-brand-700">{initials}</div>
+        <Avatar name={contact.name} src={`/avatars/${contact.id}.jpg`} className="h-16 w-16 text-xl" />
         <div className="flex-1">
           <h1 className="text-2xl font-bold text-gray-900">{contact.name}</h1>
           <p className="text-gray-500">{contact.title} · {contact.company}</p>

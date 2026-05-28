@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../lib/store.jsx'
 import Modal from '../components/Modal.jsx'
+import Avatar from '../components/Avatar.jsx'
 import { useToast } from '../components/Toast.jsx'
 
 const EMPTY = { name: '', title: '', company: '', email: '', phone: '' }
@@ -58,7 +59,12 @@ export default function Contacts() {
             ) : (
               filtered.map((c) => (
                 <tr key={c.id} data-testid="contact-row" className="hover:bg-gray-50">
-                  <td className="px-4 py-3"><Link to={`/contact/${c.id}`} className="font-medium text-gray-900 hover:text-brand-700">{c.name}</Link><p className="text-xs text-gray-400">{c.title}</p></td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar name={c.name} src={`/avatars/${c.id}.jpg`} className="h-9 w-9 text-xs" />
+                      <div><Link to={`/contact/${c.id}`} className="font-medium text-gray-900 hover:text-brand-700">{c.name}</Link><p className="text-xs text-gray-400">{c.title}</p></div>
+                    </div>
+                  </td>
                   <td className="px-4 py-3 text-gray-600">{c.company}</td>
                   <td className="hidden px-4 py-3 text-gray-600 sm:table-cell">{c.email}</td>
                   <td className="px-4 py-3 text-right">

@@ -3,7 +3,10 @@ import { StoreProvider } from './lib/store.jsx'
 import { ToastProvider } from './components/Toast.jsx'
 import Navbar from './components/Navbar.jsx'
 import NewsletterPopup from './components/NewsletterPopup.jsx'
-import Products from './pages/Products.jsx'
+import Home from './pages/Home.jsx'
+import Shop from './pages/Shop.jsx'
+import Deals from './pages/Deals.jsx'
+import Wishlist from './pages/Wishlist.jsx'
 import ProductDetail from './pages/ProductDetail.jsx'
 import Cart from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
@@ -19,7 +22,10 @@ export default function App() {
           <Navbar />
           <main>
             <Routes>
-              <Route path="/" element={<Products />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/deals" element={<Deals />} />
+              <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />

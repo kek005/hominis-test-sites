@@ -16,7 +16,7 @@ function Field({ label, error, children }) {
 }
 
 export default function Checkout() {
-  const { cart, cartSubtotal, placeOrder } = useStore()
+  const { cart, cartSubtotal, couponRate, coupon, placeOrder } = useStore()
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [submitting, setSubmitting] = useState(false)
@@ -29,8 +29,9 @@ export default function Checkout() {
   if (cart.length === 0) return <Navigate to="/cart" replace />
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
+  const discount = +(cartSubtotal * couponRate).toFixed(2)
   const shipping = cartSubtotal > 100 ? 0 : 9.99
-  const total = cartSubtotal + shipping
+  const total = +(cartSubtotal - discount + shipping).toFixed(2)
 
   const validateShipping = () => {
     const e = {}
@@ -108,6 +109,7 @@ export default function Checkout() {
           <p className="text-sm text-gray-600">Paying with card ending {form.card.replace(/\s/g, '').slice(-4)}</p>
           <dl className="mt-4 space-y-1 border-t border-gray-100 pt-4 text-sm">
             <div className="flex justify-between"><dt className="text-gray-500">Subtotal</dt><dd>{money(cartSubtotal)}</dd></div>
+            {discount > 0 && <div className="flex justify-between text-emerald-700"><dt>Discount ({coupon})</dt><dd>−{money(discount)}</dd></div>}
             <div className="flex justify-between"><dt className="text-gray-500">Shipping</dt><dd>{shipping === 0 ? 'Free' : money(shipping)}</dd></div>
             <div className="flex justify-between text-base font-bold"><dt>Total</dt><dd>{money(total)}</dd></div>
           </dl>

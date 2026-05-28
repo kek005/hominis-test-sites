@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { PRODUCTS, SEED_ORDERS, DEMO_USER } from '../data/seed.js'
+import { PRODUCTS, SEED_ORDERS, DEMO_USER, COUPONS } from '../data/seed.js'
 
-const KEY = 'nimbus.state.v1'
+const KEY = 'nimbus.state.v2'
 
 function loadState() {
   try {
@@ -10,7 +10,7 @@ function loadState() {
   } catch {
     // ignore corrupt state
   }
-  return { cart: [], orders: SEED_ORDERS, user: null, newsletterDismissed: false }
+  return { cart: [], orders: SEED_ORDERS, user: null, wishlist: [], coupon: null, newsletterDismissed: false }
 }
 
 const StoreContext = createContext(null)
@@ -30,6 +30,9 @@ export function StoreProvider({ children }) {
       productById,
       cartCount: state.cart.reduce((n, l) => n + l.qty, 0),
       cartSubtotal: state.cart.reduce((s, l) => s + (productById(l.id)?.price || 0) * l.qty, 0),
+      wishlistCount: state.wishlist.length,
+      isWishlisted: (id) => state.wishlist.includes(id),
+      couponRate: state.coupon ? COUPONS[state.coupon] || 0 : 0,
 
       addToCart(id, qty = 1) {
         setState((s) => {
@@ -59,21 +62,47 @@ export function StoreProvider({ children }) {
           const p = productById(l.id)
           return { id: l.id, name: p.name, price: p.price, qty: l.qty }
         })
-        const total = items.reduce((s, i) => s + i.price * i.qty, 0)
+        const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0)
+        const rate = state.coupon ? COUPONS[state.coupon] || 0 : 0
+        const discount = +(subtotal * rate).toFixed(2)
+        const ship = subtotal > 100 ? 0 : 9.99
+        const total = +(subtotal - discount + ship).toFixed(2)
         const order = {
           id: 'NMB-' + (10400 + Math.floor((Date.now() / 1000) % 9000)),
           date: new Date().toISOString().slice(0, 10),
           status: 'Processing',
           items,
+          subtotal,
+          discount,
+          coupon: state.coupon,
+          shippingCost: ship,
           total,
           shipping: details,
         }
-        setState((s) => ({ ...s, orders: [order, ...s.orders], cart: [] }))
+        setState((s) => ({ ...s, orders: [order, ...s.orders], cart: [], coupon: null }))
         return order
+      },
+      toggleWishlist(id) {
+        setState((s) => ({
+          ...s,
+          wishlist: s.wishlist.includes(id) ? s.wishlist.filter((x) => x !== id) : [...s.wishlist, id],
+        }))
+      },
+      applyCoupon(code) {
+        const key = code.trim().toUpperCase()
+        if (COUPONS[key]) {
+          setState((s) => ({ ...s, coupon: key }))
+          return { ok: true, rate: COUPONS[key] }
+        }
+        return { ok: false, error: 'That code is not valid.' }
+      },
+      removeCoupon() {
+        setState((s) => ({ ...s, coupon: null }))
       },
       login(email, password) {
         if (email.trim().toLowerCase() === DEMO_USER.email && password === DEMO_USER.password) {
-          setState((s) => ({ ...s, user: { email: DEMO_USER.email, name: DEMO_USER.name } }))
+          const { password: _pw, ...profile } = DEMO_USER
+          setState((s) => ({ ...s, user: profile }))
           return { ok: true }
         }
         return { ok: false, error: 'Invalid email or password.' }

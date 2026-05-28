@@ -45,3 +45,40 @@ export const STATEMENTS = [
   { id: 'stmt-2026-04-sav', period: 'April 2026', account: 'High-Yield Savings', closing: 17620.15 },
   { id: 'stmt-2026-03-sav', period: 'March 2026', account: 'High-Yield Savings', closing: 17090.3 },
 ]
+
+export const PAYEES = [
+  { id: 'pay1', name: 'City Water & Power', category: 'Utilities', account: '••• 8841' },
+  { id: 'pay2', name: 'Summit Mortgage', category: 'Housing', account: '••• 2207' },
+  { id: 'pay3', name: 'Verizon Wireless', category: 'Phone', account: '••• 5530' },
+  { id: 'pay4', name: 'Acme Insurance', category: 'Insurance', account: '••• 1199' },
+  { id: 'pay5', name: 'Northwind Card Services', category: 'Credit card', account: '••• 1102' },
+]
+
+export const SCHEDULED_PAYMENTS = [
+  { id: 'sp1', payeeId: 'pay2', payee: 'Summit Mortgage', amount: 1840.0, date: '2026-06-01', frequency: 'Monthly' },
+  { id: 'sp2', payeeId: 'pay3', payee: 'Verizon Wireless', amount: 85.0, date: '2026-06-05', frequency: 'Monthly' },
+]
+
+export const CARDS = [
+  { id: 'card1', name: 'Everyday Debit', accountId: 'chk-001', number: '•••• •••• •••• 4821', expiry: '08/28', type: 'Visa Debit', frozen: false, monthlyLimit: 3000, spentThisMonth: 1240.55, color: '#2563eb' },
+  { id: 'card2', name: 'Platinum Credit', accountId: 'crd-003', number: '•••• •••• •••• 1102', expiry: '03/27', type: 'Visa Credit', frozen: false, monthlyLimit: 5000, spentThisMonth: 892.18, color: '#0f172a' },
+]
+
+export const BUDGETS = [
+  { category: 'Groceries', limit: 600, spent: 412.6 },
+  { category: 'Dining', limit: 300, spent: 184.97 },
+  { category: 'Transport', limit: 200, spent: 131.1 },
+  { category: 'Shopping', limit: 400, spent: 631.9 },
+  { category: 'Utilities', limit: 250, spent: 196.24 },
+  { category: 'Subscriptions', limit: 80, spent: 53.97 },
+]
+
+export const PROFILE = {
+  name: 'Jordan Avery',
+  email: 'demo@hominis.test',
+  phone: '(415) 555-0142',
+  address: '24 Cloud Lane, Seattle, WA 98101',
+  twoFactor: true,
+  paperless: true,
+  alerts: { largeTransactions: true, lowBalance: true, marketing: false },
+}

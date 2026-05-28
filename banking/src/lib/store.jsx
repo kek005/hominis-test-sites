@@ -1,13 +1,17 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { ACCOUNTS, TRANSACTIONS, STATEMENTS, DEMO_USER } from '../data/seed.js'
+import { ACCOUNTS, TRANSACTIONS, STATEMENTS, DEMO_USER, PAYEES, SCHEDULED_PAYMENTS, CARDS, BUDGETS, PROFILE } from '../data/seed.js'
 
-const KEY = 'meridian.state.v1'
+const KEY = 'meridian.state.v2'
 
 function freshState() {
   return {
     user: null,
     accounts: ACCOUNTS.map((a) => ({ ...a })),
     transactions: structuredClone(TRANSACTIONS),
+    payees: PAYEES.map((p) => ({ ...p })),
+    scheduled: structuredClone(SCHEDULED_PAYMENTS),
+    cards: CARDS.map((c) => ({ ...c })),
+    profile: structuredClone(PROFILE),
   }
 }
 
@@ -36,6 +40,7 @@ export function StoreProvider({ children }) {
       accountById: (id) => state.accounts.find((a) => a.id === id),
       txFor: (id) => state.transactions[id] || [],
       statements: STATEMENTS,
+      budgets: BUDGETS,
       netWorth: state.accounts.reduce((s, a) => s + a.balance, 0),
 
       login(email, password) {
@@ -70,6 +75,58 @@ export function StoreProvider({ children }) {
           return { ...s, accounts, transactions: tx }
         })
         return { ok: true }
+      },
+      payBill({ fromId, payeeId, amount, date, memo }) {
+        const from = state.accounts.find((a) => a.id === fromId)
+        const payee = state.payees.find((p) => p.id === payeeId)
+        if (!from || !payee) return { ok: false, error: 'Select an account and a payee.' }
+        if (from.type !== 'Credit' && amount > from.balance) return { ok: false, error: 'Insufficient funds in the selected account.' }
+        const today = new Date().toISOString().slice(0, 10)
+        const future = date && date > today
+        setState((s) => {
+          let accounts = s.accounts
+          let tx = s.transactions
+          if (!future) {
+            accounts = s.accounts.map((a) => (a.id === fromId ? { ...a, balance: +(a.balance - amount).toFixed(2) } : a))
+            tx = structuredClone(s.transactions)
+            tx[fromId] = [{ id: 'tx-' + Math.random().toString(36).slice(2, 8), date: date || today, desc: `Payment — ${payee.name}`, category: 'Bills', amount: -amount, memo }, ...(tx[fromId] || [])]
+          }
+          const scheduled = future
+            ? [{ id: 'sp-' + Math.random().toString(36).slice(2, 7), payeeId, payee: payee.name, amount, date, frequency: 'One-time' }, ...s.scheduled]
+            : s.scheduled
+          return { ...s, accounts, transactions: tx, scheduled }
+        })
+        return { ok: true, scheduled: future }
+      },
+      addPayee({ name, category, account }) {
+        const payee = { id: 'pay-' + Math.random().toString(36).slice(2, 7), name, category, account }
+        setState((s) => ({ ...s, payees: [...s.payees, payee] }))
+        return payee
+      },
+      cancelScheduled(id) {
+        setState((s) => ({ ...s, scheduled: s.scheduled.filter((p) => p.id !== id) }))
+      },
+      toggleCardFreeze(id) {
+        setState((s) => ({ ...s, cards: s.cards.map((c) => (c.id === id ? { ...c, frozen: !c.frozen } : c)) }))
+      },
+      setCardLimit(id, monthlyLimit) {
+        setState((s) => ({ ...s, cards: s.cards.map((c) => (c.id === id ? { ...c, monthlyLimit } : c)) }))
+      },
+      depositCheck({ accountId, amount }) {
+        const today = new Date().toISOString().slice(0, 10)
+        setState((s) => {
+          const accounts = s.accounts.map((a) => (a.id === accountId ? { ...a, balance: +(a.balance + amount).toFixed(2) } : a))
+          const tx = structuredClone(s.transactions)
+          tx[accountId] = [{ id: 'tx-' + Math.random().toString(36).slice(2, 8), date: today, desc: 'Mobile check deposit', category: 'Deposit', amount }, ...(tx[accountId] || [])]
+          return { ...s, accounts, transactions: tx }
+        })
+        return { ok: true }
+      },
+      updateProfile(patch) {
+        setState((s) => ({ ...s, profile: { ...s.profile, ...patch } }))
+      },
+      toggleAlert(key) {
+        setState((s) => ({ ...s, profile: { ...s.profile, alerts: { ...s.profile.alerts, [key]: !s.profile.alerts[key] } } }))
       },
       resetDemo() {
         localStorage.removeItem(KEY)

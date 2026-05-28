@@ -4,7 +4,12 @@ import { useStore } from '../lib/store.jsx'
 const nav = [
   { to: '/dashboard', label: 'Dashboard', icon: '▦' },
   { to: '/transfer', label: 'Transfer', icon: '⇄' },
-  { to: '/statements', label: 'Statements', icon: '🧾' },
+  { to: '/billpay', label: 'Bill Pay', icon: '🧾' },
+  { to: '/deposit', label: 'Deposit', icon: '📷' },
+  { to: '/cards', label: 'Cards', icon: '💳' },
+  { to: '/insights', label: 'Insights', icon: '📊' },
+  { to: '/statements', label: 'Statements', icon: '📄' },
+  { to: '/profile', label: 'Profile', icon: '⚙' },
 ]
 
 export default function Layout({ children }) {

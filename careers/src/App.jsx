@@ -7,6 +7,7 @@ import JobDetail from './pages/JobDetail.jsx'
 import Apply from './pages/Apply.jsx'
 import Confirmation from './pages/Confirmation.jsx'
 import Saved from './pages/Saved.jsx'
+import Company from './pages/Company.jsx'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
               <Route path="/job/:id/apply" element={<Apply />} />
               <Route path="/job/:id/applied" element={<Confirmation />} />
               <Route path="/saved" element={<Saved />} />
+              <Route path="/company" element={<Company />} />
               <Route path="*" element={<div className="mx-auto max-w-2xl px-4 py-20 text-center text-gray-500">Page not found.</div>} />
             </Routes>
           </main>

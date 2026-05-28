@@ -1,8 +1,49 @@
 // Deterministic seed data for Northwind Careers.
 
-export const DEPARTMENTS = ['Engineering', 'Design', 'Product', 'Marketing', 'Sales', 'Operations', 'Support']
-export const LOCATIONS = ['Remote', 'New York, NY', 'Austin, TX', 'London, UK', 'Berlin, DE']
+export const DEPARTMENTS = ['Engineering', 'Design', 'Product', 'Marketing', 'Sales', 'Operations', 'Support', 'Data', 'Finance', 'People']
+export const LOCATIONS = ['Remote', 'New York, NY', 'Austin, TX', 'London, UK', 'Berlin, DE', 'Toronto, CA']
 export const TYPES = ['Full-time', 'Contract', 'Internship']
+
+// --- Application form option lists ---
+export const EXPERIENCE_LEVELS = ['0–1 years', '2–4 years', '5–7 years', '8–10 years', '11+ years']
+export const DEGREES = ['High school diploma', 'Associate degree', "Bachelor's degree", "Master's degree", 'MBA', 'PhD', 'Bootcamp / certificate', 'Other']
+export const GRAD_YEARS = Array.from({ length: 45 }, (_, i) => 2027 - i) // 2027 … 1983
+export const SOURCES = ['LinkedIn', 'Company website', 'Referral from an employee', 'Job board (Indeed, etc.)', 'University career fair', 'Social media', 'Other']
+export const NOTICE_PERIODS = ['Immediately', '2 weeks', '1 month', '2 months', '3+ months']
+export const PRONOUNS = ['She/her', 'He/him', 'They/them', 'Prefer to self-describe', 'Prefer not to say']
+
+// EEO / voluntary self-identification options
+export const GENDERS = ['Female', 'Male', 'Non-binary', 'Prefer to self-describe', 'Decline to self-identify']
+export const ETHNICITIES = [
+  'Hispanic or Latino',
+  'White (Not Hispanic or Latino)',
+  'Black or African American',
+  'Asian',
+  'Native Hawaiian or Other Pacific Islander',
+  'American Indian or Alaska Native',
+  'Two or More Races',
+  'Decline to self-identify',
+]
+export const VETERAN_STATUS = ['I am not a protected veteran', 'I identify as one or more of the classifications of protected veteran', 'I decline to self-identify']
+export const DISABILITY_STATUS = ['Yes, I have a disability (or previously had one)', 'No, I do not have a disability', 'I do not want to answer']
+
+export const BENEFITS = [
+  { icon: '🏥', title: 'Health, dental & vision', text: '100% employer-paid premiums for you and your dependents.' },
+  { icon: '🌴', title: 'Unlimited PTO', text: 'Take the time you need — minimum 3 weeks encouraged.' },
+  { icon: '🏡', title: 'Remote-first', text: 'Work from anywhere, with quarterly team onsites.' },
+  { icon: '💰', title: 'Equity for everyone', text: 'Meaningful ownership from day one.' },
+  { icon: '📚', title: 'Learning budget', text: '$2,000/year for courses, books, and conferences.' },
+  { icon: '👶', title: 'Paid parental leave', text: '16 weeks fully paid for all new parents.' },
+  { icon: '🏋️', title: 'Wellness stipend', text: '$100/month for gym, therapy, or wellness apps.' },
+  { icon: '💻', title: 'Home office setup', text: '$1,500 to build your ideal workspace.' },
+]
+
+export const VALUES = [
+  { title: 'Customers first', text: 'We obsess over the people who use what we build.' },
+  { title: 'Default to ownership', text: 'See a problem? It’s yours to drive to done.' },
+  { title: 'Clear over clever', text: 'Simple, well-communicated work beats showing off.' },
+  { title: 'Kind and candid', text: 'We give direct feedback because we care.' },
+]
 
 export const JOBS = [
   { id: 'eng-101', title: 'Senior Frontend Engineer', department: 'Engineering', location: 'Remote', type: 'Full-time', salary: '$150k – $185k', posted: '2026-05-18',
@@ -21,6 +62,14 @@ export const JOBS = [
     summary: 'A 12-week summer internship on a product engineering team.',
     responsibilities: ['Ship a real feature', 'Pair with a mentor', 'Present your work'],
     requirements: ['CS coursework or equivalent', 'Some web dev experience', 'Eagerness to learn'] },
+  { id: 'eng-105', title: 'Staff Engineer, Infrastructure', department: 'Engineering', location: 'Remote', type: 'Full-time', salary: '$190k – $230k', posted: '2026-05-04',
+    summary: 'Set technical direction for our core infrastructure and developer platform.',
+    responsibilities: ['Define architecture', 'Lead cross-team initiatives', 'Raise the engineering bar'],
+    requirements: ['8+ years experience', 'Deep distributed systems expertise', 'Track record leading large projects'] },
+  { id: 'eng-106', title: 'Mobile Engineer (iOS)', department: 'Engineering', location: 'Toronto, CA', type: 'Full-time', salary: 'C$130k – C$165k', posted: '2026-05-16',
+    summary: 'Craft a delightful native iOS experience.',
+    responsibilities: ['Build features in Swift', 'Improve app performance', 'Collaborate with design'],
+    requirements: ['4+ years iOS', 'Swift & SwiftUI', 'Shipped App Store apps'] },
   { id: 'des-201', title: 'Product Designer', department: 'Design', location: 'London, UK', type: 'Full-time', salary: '£70k – £90k', posted: '2026-05-15',
     summary: 'Shape end-to-end product experiences from research to polished UI.',
     responsibilities: ['Run discovery and usability tests', 'Design flows and prototypes', 'Maintain the design system'],
@@ -29,6 +78,10 @@ export const JOBS = [
     summary: 'Bring our brand to life across video, web, and social.',
     responsibilities: ['Produce motion graphics', 'Evolve brand guidelines', 'Support campaigns'],
     requirements: ['After Effects expertise', 'Strong visual storytelling', 'Brand systems experience'] },
+  { id: 'des-203', title: 'UX Researcher', department: 'Design', location: 'Remote', type: 'Full-time', salary: '$120k – $150k', posted: '2026-05-02',
+    summary: 'Turn user insight into product decisions.',
+    responsibilities: ['Plan and run studies', 'Synthesize findings', 'Influence roadmap'],
+    requirements: ['4+ years research', 'Mixed methods', 'Strong storytelling'] },
   { id: 'prd-301', title: 'Product Manager, Growth', department: 'Product', location: 'New York, NY', type: 'Full-time', salary: '$155k – $190k', posted: '2026-05-11',
     summary: 'Drive activation and retention across the customer lifecycle.',
     responsibilities: ['Define growth experiments', 'Partner with data and eng', 'Own the growth roadmap'],
@@ -37,6 +90,10 @@ export const JOBS = [
     summary: 'Own platform and API products used by internal teams and partners.',
     responsibilities: ['Write clear specs', 'Prioritize the backlog', 'Coordinate launches'],
     requirements: ['Technical background', 'API product experience', 'Excellent communication'] },
+  { id: 'prd-303', title: 'Group Product Manager', department: 'Product', location: 'Remote', type: 'Full-time', salary: '$180k – $215k', posted: '2026-04-29',
+    summary: 'Lead a team of PMs across a product area.',
+    responsibilities: ['Coach PMs', 'Set product strategy', 'Align stakeholders'],
+    requirements: ['7+ years PM, 2+ managing', 'Strategic thinker', 'Strong leadership'] },
   { id: 'mkt-401', title: 'Content Marketing Lead', department: 'Marketing', location: 'Remote', type: 'Full-time', salary: '$110k – $135k', posted: '2026-05-19',
     summary: 'Own our content strategy and editorial calendar.',
     responsibilities: ['Plan and edit content', 'Grow organic traffic', 'Manage freelancers'],
@@ -45,6 +102,10 @@ export const JOBS = [
     summary: 'Design and run email and in-product lifecycle campaigns.',
     responsibilities: ['Build automated journeys', 'Run A/B tests', 'Report on funnel metrics'],
     requirements: ['Email platform experience', 'Strong copywriting', 'Analytical mindset'] },
+  { id: 'mkt-403', title: 'Product Marketing Manager', department: 'Marketing', location: 'New York, NY', type: 'Full-time', salary: '$120k – $150k', posted: '2026-05-01',
+    summary: 'Own positioning, messaging, and launches.',
+    responsibilities: ['Craft narratives', 'Run launches', 'Enable sales'],
+    requirements: ['4+ years PMM', 'Excellent writing', 'Cross-functional leadership'] },
   { id: 'sal-501', title: 'Account Executive', department: 'Sales', location: 'New York, NY', type: 'Full-time', salary: '$90k base + OTE $180k', posted: '2026-05-14',
     summary: 'Close mid-market deals and grow strategic accounts.',
     responsibilities: ['Manage a full sales cycle', 'Hit quarterly quota', 'Partner with solutions team'],
@@ -53,7 +114,11 @@ export const JOBS = [
     summary: 'Generate and qualify pipeline for the sales team.',
     responsibilities: ['Prospect outbound', 'Qualify inbound leads', 'Book meetings for AEs'],
     requirements: ['1+ year SDR experience', 'High activity mindset', 'Great phone presence'] },
-  { id: 'ops-601', title: 'People Operations Manager', department: 'Operations', location: 'Remote', type: 'Full-time', salary: '$105k – $130k', posted: '2026-05-08',
+  { id: 'sal-503', title: 'Solutions Engineer', department: 'Sales', location: 'Remote', type: 'Full-time', salary: '$130k base + OTE $170k', posted: '2026-05-10',
+    summary: 'Be the technical partner in the sales cycle.',
+    responsibilities: ['Run demos and POCs', 'Answer technical questions', 'Shape solutions'],
+    requirements: ['Technical pre-sales experience', 'Strong communication', 'API fluency'] },
+  { id: 'ops-601', title: 'People Operations Manager', department: 'People', location: 'Remote', type: 'Full-time', salary: '$105k – $130k', posted: '2026-05-08',
     summary: 'Own HR operations, onboarding, and employee experience.',
     responsibilities: ['Run onboarding', 'Own HRIS and policies', 'Support managers'],
     requirements: ['4+ years People Ops', 'HRIS experience', 'Discretion and empathy'] },
@@ -61,8 +126,32 @@ export const JOBS = [
     summary: 'Turn data into decisions across the business.',
     responsibilities: ['Build dashboards', 'Model scenarios', 'Support planning'],
     requirements: ['Strong SQL and spreadsheets', 'Analytical rigor', 'Business curiosity'] },
+  { id: 'ops-603', title: 'Technical Recruiter', department: 'People', location: 'Remote', type: 'Contract', salary: '$55 – $75/hr', posted: '2026-05-13',
+    summary: 'Help us hire exceptional engineers.',
+    responsibilities: ['Source candidates', 'Run great processes', 'Partner with hiring managers'],
+    requirements: ['3+ years technical recruiting', 'Strong sourcing', 'Excellent candidate experience'] },
   { id: 'sup-701', title: 'Customer Support Specialist', department: 'Support', location: 'Remote', type: 'Full-time', salary: '$55k – $70k', posted: '2026-05-20',
     summary: 'Be the friendly, expert voice our customers rely on.',
     responsibilities: ['Resolve tickets', 'Escalate bugs', 'Write help docs'],
     requirements: ['2+ years support', 'Excellent writing', 'Calm under pressure'] },
+  { id: 'sup-702', title: 'Customer Success Manager', department: 'Support', location: 'Austin, TX', type: 'Full-time', salary: '$90k – $115k', posted: '2026-05-05',
+    summary: 'Drive adoption and renewals for our top accounts.',
+    responsibilities: ['Own a book of business', 'Run QBRs', 'Reduce churn'],
+    requirements: ['3+ years CSM', 'SaaS background', 'Relationship builder'] },
+  { id: 'dat-801', title: 'Data Engineer', department: 'Data', location: 'Remote', type: 'Full-time', salary: '$140k – $175k', posted: '2026-05-17',
+    summary: 'Build the pipelines that power analytics and ML.',
+    responsibilities: ['Own ETL/ELT', 'Model the warehouse', 'Ensure data quality'],
+    requirements: ['4+ years data engineering', 'SQL, Python, dbt', 'Warehouse experience'] },
+  { id: 'dat-802', title: 'Senior Data Scientist', department: 'Data', location: 'New York, NY', type: 'Full-time', salary: '$160k – $195k', posted: '2026-05-09',
+    summary: 'Turn data into models and product impact.',
+    responsibilities: ['Build models', 'Design experiments', 'Partner with product'],
+    requirements: ['5+ years DS', 'Strong statistics', 'Production ML experience'] },
+  { id: 'fin-901', title: 'Senior Accountant', department: 'Finance', location: 'Remote', type: 'Full-time', salary: '$95k – $120k', posted: '2026-05-02',
+    summary: 'Own the monthly close and keep our books clean.',
+    responsibilities: ['Run month-end close', 'Manage AP/AR', 'Support audits'],
+    requirements: ['4+ years accounting', 'CPA preferred', 'GAAP knowledge'] },
+  { id: 'fin-902', title: 'FP&A Manager', department: 'Finance', location: 'New York, NY', type: 'Full-time', salary: '$130k – $160k', posted: '2026-04-28',
+    summary: 'Drive planning, forecasting, and business insight.',
+    responsibilities: ['Own the model', 'Partner with leaders', 'Report to the board'],
+    requirements: ['5+ years FP&A', 'Advanced modeling', 'SaaS metrics fluency'] },
 ]

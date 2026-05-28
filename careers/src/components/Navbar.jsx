@@ -12,6 +12,7 @@ export default function Navbar() {
         </Link>
         <nav className="hidden gap-4 text-sm font-medium text-gray-600 sm:flex">
           <NavLink to="/" end className={({ isActive }) => (isActive ? 'text-brand-700' : 'hover:text-gray-900')}>Open roles</NavLink>
+          <NavLink to="/company" className={({ isActive }) => (isActive ? 'text-brand-700' : 'hover:text-gray-900')}>Life at Northwind</NavLink>
           <NavLink to="/saved" className={({ isActive }) => (isActive ? 'text-brand-700' : 'hover:text-gray-900')}>
             Saved {saved.length > 0 && <span className="ml-1 rounded-full bg-brand-100 px-1.5 text-xs text-brand-700">{saved.length}</span>}
           </NavLink>

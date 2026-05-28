@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
         aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
         aria-pressed={wished}
         data-testid="wishlist-toggle"
-        className="-mt-9 ml-auto mr-1 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-lg shadow hover:bg-white"
+        className="relative z-10 -mt-9 ml-auto mr-1 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-lg shadow hover:bg-white"
       >
         <span className={wished ? 'text-red-500' : 'text-gray-400'}>{wished ? '♥' : '♡'}</span>
       </button>

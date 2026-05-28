@@ -2,6 +2,18 @@ import { test, expect } from '@playwright/test'
 
 const BASE = 'http://localhost:5001'
 
+// Pre-dismiss the first-visit newsletter popup so it doesn't intercept clicks.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    // Seed only once so state changes (cart, wishlist) survive in-test navigation.
+    if (!localStorage.getItem('nimbus.state.v2')) {
+      localStorage.setItem('nimbus.state.v2', JSON.stringify({
+        cart: [], orders: [], user: null, wishlist: [], coupon: null, newsletterDismissed: true,
+      }))
+    }
+  })
+})
+
 test('home renders with hero and category tiles', async ({ page }) => {
   await page.goto(BASE)
   await expect(page.getByRole('heading', { name: /Tech that keeps up with you/i })).toBeVisible()
@@ -14,7 +26,7 @@ test('shop lists products and add-to-cart updates the cart count', async ({ page
   await expect(cards.first()).toBeVisible()
   expect(await cards.count()).toBeGreaterThan(10)
 
-  await cards.first().getByRole('button', { name: 'Add' }).click()
+  await cards.first().getByRole('button', { name: 'Add', exact: true }).click()
   await expect(page.getByTestId('cart-count')).toHaveText('1')
 })
 

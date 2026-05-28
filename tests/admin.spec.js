@@ -7,11 +7,14 @@ async function login(page) {
   await page.getByLabel('Email').fill('demo@hominis.test')
   await page.getByLabel('Password').fill('password')
   await page.getByRole('button', { name: 'Sign in' }).click()
-  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
+  // Successful login lands on the authenticated app shell (default /users).
+  await expect(page).toHaveURL(/\/(users|dashboard)/)
 }
 
 test('login then dashboard analytics render', async ({ page }) => {
   await login(page)
+  await page.goto(`${BASE}/dashboard`)
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
   await expect(page.getByText('Total users')).toBeVisible()
 })
 

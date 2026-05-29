@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { useStore } from '../lib/store.jsx'
+import { BENEFITS, INTERVIEW_PROCESS, HIRING_NOTE } from '../data/seed.js'
 
 export default function JobDetail() {
   const { id } = useParams()
@@ -23,9 +24,13 @@ export default function JobDetail() {
 
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{job.title}</h1>
-          <p className="mt-2 text-gray-500">{job.department} · {job.location} · {job.type}</p>
-          <p className="mt-1 font-medium text-gray-700">{job.salary}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">{job.type}</span>
+            {job.level && <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">{job.level}</span>}
+            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">{job.department}</span>
+          </div>
+          <h1 className="mt-2 text-3xl font-bold text-gray-900">{job.title}</h1>
+          <p className="mt-2 text-gray-500">{job.location} · {job.salary}</p>
         </div>
         <button
           onClick={() => toggleSave(job.id)}
@@ -35,7 +40,14 @@ export default function JobDetail() {
         </button>
       </div>
 
-      <p className="mt-6 text-gray-700">{job.summary}</p>
+      <section className="mt-6">
+        <h2 className="mb-2 text-lg font-semibold text-gray-900">About the role</h2>
+        <p className="text-gray-700">{job.summary}</p>
+        <p className="mt-3 text-gray-700">
+          You'll join the {job.department} team at Northwind, a remote-first company that values clear communication,
+          ownership, and craft. We'll give you real problems, the context to solve them, and the support to grow.
+        </p>
+      </section>
 
       <section className="mt-8">
         <h2 className="mb-2 text-lg font-semibold text-gray-900">What you'll do</h2>
@@ -51,7 +63,42 @@ export default function JobDetail() {
         </ul>
       </section>
 
-      <div className="mt-10 flex items-center gap-4 border-t border-gray-100 pt-6">
+      {job.niceToHave?.length > 0 && (
+        <section className="mt-6">
+          <h2 className="mb-2 text-lg font-semibold text-gray-900">Nice to have</h2>
+          <ul className="list-disc space-y-1 pl-5 text-gray-700">
+            {job.niceToHave.map((r) => <li key={r}>{r}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <section className="mt-8">
+        <h2 className="mb-3 text-lg font-semibold text-gray-900">What we offer</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {BENEFITS.map((b) => (
+            <div key={b.title} className="flex items-start gap-3 rounded-xl border border-gray-100 p-3">
+              <span className="text-xl">{b.icon}</span>
+              <div><p className="text-sm font-medium text-gray-900">{b.title}</p><p className="text-xs text-gray-500">{b.text}</p></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-8">
+        <h2 className="mb-3 text-lg font-semibold text-gray-900">How we hire</h2>
+        <ol className="space-y-3">
+          {INTERVIEW_PROCESS.map((s, i) => (
+            <li key={s.step} className="flex gap-3">
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-600 text-xs font-bold text-white">{i + 1}</span>
+              <div><p className="text-sm font-medium text-gray-900">{s.step}</p><p className="text-sm text-gray-600">{s.detail}</p></div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <p className="mt-8 rounded-xl bg-gray-50 p-4 text-xs text-gray-500">{HIRING_NOTE}</p>
+
+      <div className="mt-8 flex items-center gap-4 border-t border-gray-100 pt-6">
         {applied ? (
           <span className="rounded-lg bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700">✓ Application submitted</span>
         ) : (

@@ -10,6 +10,19 @@ test('job listings render', async ({ page }) => {
   expect(await jobs.count()).toBeGreaterThan(10)
 })
 
+test('AI department filter shows roles with an enriched job description', async ({ page }) => {
+  await page.goto(BASE)
+  await page.getByLabel('Department').selectOption('AI')
+  const jobs = page.getByTestId('job-card')
+  await expect(jobs.first()).toBeVisible()
+  await jobs.first().getByRole('link', { name: 'View' }).click()
+  // Enriched JD sections present on every role.
+  await expect(page.getByRole('heading', { name: 'About the role' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Nice to have' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What we offer' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'How we hire' })).toBeVisible()
+})
+
 test('open a job and reach the multi-step application', async ({ page }) => {
   await page.goto(BASE)
   await page.getByTestId('job-card').first().getByRole('link', { name: 'View' }).click()

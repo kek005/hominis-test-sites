@@ -21,6 +21,9 @@ services.
 | `tickets/`   | Event tickets with seat selection and checkout       |
 | `insurance/` | Policies, claim + quote wizards, payments, documents |
 | `hospital/`  | Clinical staff dashboard: patients, beds, appointments |
+| `realestate/`| Property listings, mortgage calculator, tour requests  |
+| `food/`      | Food delivery: restaurants, menus, live order tracker  |
+| `social/`    | Social feed, profiles, explore, notifications          |
 
 Each folder is independent and can be developed, deployed, and torn down on its own.
 
@@ -36,7 +39,7 @@ Each folder is independent and can be developed, deployed, and torn down on its 
 ## Running the sites
 
 Each site is an independent Vite + React + Tailwind app. To boot the landing
-page and all nine sites at once:
+page and all twelve sites at once:
 
 ```bash
 ./start.sh
@@ -57,6 +60,11 @@ Press `Ctrl+C` to stop everything. Per-site logs are written to `./logs/`.
 | Showtime Tickets  | 5007 | http://localhost:5007 |
 | Assure Insurance  | 5008 | http://localhost:5008 |
 | Pulse Hospital    | 5009 | http://localhost:5009 |
+| Hearth Homes      | 5010 | http://localhost:5010 |
+| Munch (food)      | 5011 | http://localhost:5011 |
+| Buzz (social)     | 5012 | http://localhost:5012 |
+
+Live status of all sites is available at **http://localhost:5000/status**.
 
 To run a single site on its own:
 
@@ -68,7 +76,7 @@ cd banking && npm run dev   # already has deps installed
 
 Sites with a login accept **`demo@hominis.test`** / **`password`**.
 Banking, CRM, Admin, Insurance, and Hospital require sign-in; the store,
-careers, travel, and tickets sites are open.
+careers, travel, tickets, real estate, food, and Buzz sites are open.
 
 ## Resetting state
 
@@ -88,5 +96,6 @@ npx playwright test
 
 ## Status
 
-All nine sites + landing page are built and runnable via `./start.sh`,
-with Playwright smoke tests covering each site's core flows.
+All twelve sites + landing page are built and runnable via `./start.sh`,
+with Playwright smoke tests covering each site's core flows and a live
+**System Status** page at `/status`.

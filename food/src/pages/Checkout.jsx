@@ -14,7 +14,9 @@ export default function Checkout() {
   const [errors, setErrors] = useState({})
   const [busy, setBusy] = useState(false)
 
-  if (cart.items.length === 0) return <Navigate to="/cart" replace />
+  // Don't redirect while a submit is in flight — placeOrder clears the cart and
+  // the navigation to the confirmation page would otherwise lose the race.
+  if (cart.items.length === 0 && !busy) return <Navigate to="/cart" replace />
 
   const fee = restaurant?.fee || 0
   const tax = +(cartTotal * 0.085).toFixed(2)

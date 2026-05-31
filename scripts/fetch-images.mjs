@@ -11,6 +11,9 @@ import { USERS } from '../admin/src/data/seed.js'
 import { CITIES, HOTELS } from '../travel/src/data/seed.js'
 import { EVENTS } from '../tickets/src/data/seed.js'
 import { STAFF } from '../hospital/src/data/seed.js'
+import { PROPERTIES } from '../realestate/src/data/seed.js'
+import { RESTAURANTS } from '../food/src/data/seed.js'
+import { USERS as SOCIAL_USERS, CURRENT_USER as SOCIAL_ME } from '../social/src/data/seed.js'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -125,6 +128,31 @@ EVENTS.forEach((e, idx) => {
 // Hospital: staff avatars.
 STAFF.forEach((s) => {
   jobs.push(() => download(`https://i.pravatar.cc/160?img=${s.avatar}`, `${ROOT}/hospital/public/avatars/${s.id}.jpg`))
+})
+
+// Real estate: property photos by type.
+const PROP_KW = { House: 'house,home', Condo: 'condominium,apartment', Townhouse: 'townhouse,brownstone', Apartment: 'apartment,interior', Land: 'land,acreage' }
+PROPERTIES.forEach((p, idx) => {
+  const dest = `${ROOT}/realestate/public/img/properties/${p.img}.jpg`
+  const kw = PROP_KW[p.type] || 'home'
+  const primary = `https://loremflickr.com/600/450/${encodeURIComponent(kw)}?lock=${idx + 200}`
+  const fallback = `https://picsum.photos/seed/${p.img}/600/450`
+  jobs.push(async () => { try { return await download(primary, dest) } catch { return await download(fallback, dest) } })
+})
+
+// Food: restaurant photos by cuisine.
+const CUISINE_KW = { Pizza: 'pizza', Burgers: 'burger', Sushi: 'sushi', Mexican: 'tacos,mexican', Thai: 'thai,curry', Indian: 'indian,curry', Italian: 'pasta,italian', Chinese: 'chinese,noodles', Mediterranean: 'mediterranean,hummus', Breakfast: 'breakfast,brunch', Vegan: 'salad,vegan', Desserts: 'cake,dessert' }
+RESTAURANTS.forEach((r, idx) => {
+  const dest = `${ROOT}/food/public/img/restaurants/${r.img}.jpg`
+  const kw = CUISINE_KW[r.cuisine] || 'food'
+  const primary = `https://loremflickr.com/600/400/${encodeURIComponent(kw)}?lock=${idx + 250}`
+  const fallback = `https://picsum.photos/seed/${r.img}/600/400`
+  jobs.push(async () => { try { return await download(primary, dest) } catch { return await download(fallback, dest) } })
+})
+
+// Social: avatars for all users (including the demo me).
+;[SOCIAL_ME, ...SOCIAL_USERS].forEach((u) => {
+  jobs.push(() => download(`https://i.pravatar.cc/200?img=${u.avatar}`, `${ROOT}/social/public/avatars/${u.handle}.jpg`))
 })
 
 console.log(`Fetching ${jobs.length} images…`)
